@@ -61,3 +61,29 @@ exports.login = async (req, res) => {
 
   res.json({ token, user });
 };
+
+exports.resendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) return res.status(400).json({ message: 'User not found' });
+        if (user.isVerified) return res.status(400).json({ message: 'User already verified' });
+
+        const otp = generateOTP();
+        user.otp = otp;
+        user.otpExpiry = new Date(Date.now() + 2 * 60 * 1000);
+        await user.save();
+
+        await transporter.sendMail({
+            from: 'digitalny0307@gmail.com',
+            to: email,
+            subject: 'Resend OTP Verification',
+            text: `Your new OTP is: ${otp}`
+        });
+
+        res.json({ message: 'OTP resent successfully.' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error resending OTP', error });
+    }
+};

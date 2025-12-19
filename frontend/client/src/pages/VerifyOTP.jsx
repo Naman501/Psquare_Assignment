@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import axios from "../api/axiosInstance";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,6 +6,7 @@ export default function VerifyOTP() {
   const [otp, setOtp] = useState("");
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [isResending, setIsResending] = useState(false);
 
   const submit = async () => {
     if (!otp) return alert("Please enter the OTP.");
@@ -21,6 +20,24 @@ export default function VerifyOTP() {
     } catch (error) {
       console.error("OTP Verification failed:", error);
       alert("Invalid or expired OTP. Please try again.");
+    }
+  };
+
+  const handleResend = async () => {
+    if (isResending) return;
+    
+    setIsResending(true);
+    try {
+      // Replace with your actual resend endpoint
+      await axios.post("/auth/resend-otp", { 
+        email: state?.email 
+      });
+      alert("A new OTP has been sent to your email.");
+    } catch (error) {
+      console.error("Resend failed:", error);
+      alert("Failed to resend OTP. Please try again later.");
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -54,7 +71,19 @@ export default function VerifyOTP() {
         >
           Verify Code
         </button>
-        
+
+        {/* Resend OTP Section */}
+        <div style={styles.resendContainer}>
+          <span style={styles.resendText}>Didn't receive code?</span>
+          <button 
+            style={styles.resendLink} 
+            onClick={handleResend}
+            disabled={isResending}
+          >
+            {isResending ? "Sending..." : "Resend OTP"}
+          </button>
+        </div>
+
         <button style={styles.textButton} onClick={() => navigate(-1)}>
           Go Back
         </button>
@@ -144,13 +173,40 @@ const styles = {
   buttonHover: {
     backgroundColor: "#4338ca" // Indigo-700
   },
+  
+  // --- NEW STYLES ADDED BELOW ---
+  resendContainer: {
+    marginTop: "20px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "6px", // Space between text and button
+    fontSize: "0.9rem",
+  },
+  resendText: {
+    color: "#64748b", // Slate-500 (matches subtitle)
+  },
+  resendLink: {
+    background: "none",
+    border: "none",
+    color: "#4f46e5", // Indigo-600 (matches primary button)
+    fontWeight: "600",
+    cursor: "pointer",
+    padding: 0,
+    fontSize: "inherit",
+    fontFamily: "inherit",
+    textDecoration: "none",
+  },
+  // ------------------------------
+
   textButton: {
     background: "none",
     border: "none",
-    color: "#64748b",
-    marginTop: "20px",
+    color: "#94a3b8", // Slate-400 (lighter than before to de-emphasize)
+    marginTop: "16px",
     cursor: "pointer",
-    fontSize: "0.9rem",
-    textDecoration: "underline"
+    fontSize: "0.85rem",
+    textDecoration: "underline",
+    transition: "color 0.2s"
   }
 };
