@@ -1,68 +1,3 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-// // Public Pages
-// import LandingPage from "./pages/LandingPage";
-// import Signup from "./pages/Signup";
-// import Login from "./pages/Login";
-
-// // Protected Route Components
-// import ProtectedRoute from "./components/ProtectedRoute";
-// import AdminRoute from "./components/AdminRoute";
-
-// // Admin Pages
-// import AdminDashboard from "./pages/admin/AdminDashboard";
-// import CompanyList from "./pages/admin/CompanyList";
-// import JobManager from "./pages/admin/JobManager";
-
-// function App() {
-//   return (
-//     <BrowserRouter>
-//       <Routes>
-//         {/* --- Public Routes --- */}
-//         <Route path="/" element={<LandingPage />} />
-//         <Route path="/signup" element={<Signup />} />
-//         <Route path="/login" element={<Login />} />
-
-//         {/* --- Protected Admin Routes --- */}
-//         <Route 
-//           path="/admin" 
-//           element={
-//             <ProtectedRoute>
-//               <AdminRoute>
-//                 <AdminDashboard />
-//               </AdminRoute>
-//             </ProtectedRoute>
-//           } 
-//         />
-
-//         <Route 
-//           path="/admin/companies" 
-//           element={
-//             <ProtectedRoute>
-//               <AdminRoute>
-//                 <CompanyList />
-//               </AdminRoute>
-//             </ProtectedRoute>
-//           } 
-//         />
-
-//         <Route 
-//           path="/admin/jobs/:companyId" 
-//           element={
-//             <ProtectedRoute>
-//               <AdminRoute>
-//                 <JobManager />
-//               </AdminRoute>
-//             </ProtectedRoute>
-//           } 
-//         />
-//       </Routes>
-//     </BrowserRouter>
-//   );
-// }
-
-// export default App;
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
@@ -93,11 +28,17 @@ function App() {
         <Route path="/companies" element={<Companies />} />
 
         <Route path="/dashboard" element={
-          <ProtectedRoute><Dashboard /></ProtectedRoute>
+          <ProtectedRoute>
+            <Dashboard />
+            </ProtectedRoute>
         } />
 
         <Route path="/admin" element={
-          <ProtectedRoute><AdminRoute><AdminDashboard /></AdminRoute></ProtectedRoute>
+          <ProtectedRoute>
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+            </ProtectedRoute>
         } />
 
         <Route path="/admin/companies" element={
@@ -105,7 +46,11 @@ function App() {
         } />
 
         <Route path="/admin/jobs/:companyId" element={
-          <ProtectedRoute><AdminRoute><JobManager /></AdminRoute></ProtectedRoute>
+          <ProtectedRoute>
+            <AdminRoute>
+              <JobManager />
+              </AdminRoute>
+              </ProtectedRoute>
         } />
       </Routes>
     </BrowserRouter>
