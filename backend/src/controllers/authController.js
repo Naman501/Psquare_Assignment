@@ -31,7 +31,7 @@ exports.verifyOTP = async (req, res) => {
   }
 
   await User.updateOne({ email }, { isVerified: true });
-  await OTP.deleteMany({ email });
+  // await OTP.deleteMany({ email });
 
   res.json({ message: "OTP verified" });
 };
