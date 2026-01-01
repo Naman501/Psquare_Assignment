@@ -105,7 +105,7 @@
 
 // module.exports = { registerUser };
 
-const sendEmail = require("../config/email");
+const sendEmail = require("../config/mail");
 
 const login = async (req, res) => {
   res.json({ message: "login works" });
