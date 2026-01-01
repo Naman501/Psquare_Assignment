@@ -88,19 +88,34 @@
 //     }
 // };
 
-const sendEmail = require("../config/mail");
+// const sendEmail = require("../config/mail");
 
-async function registerUser(req, res) {
-  const { email } = req.body;
+// async function registerUser(req, res) {
+//   const { email } = req.body;
 
-  await sendEmail({
-    to: email,
-    subject: "Welcome!",
-    text: "Thanks for signing up",
-    html: "<b>Thanks for signing up</b>"
-  });
+//   await sendEmail({
+//     to: email,
+//     subject: "Welcome!",
+//     text: "Thanks for signing up",
+//     html: "<b>Thanks for signing up</b>"
+//   });
 
-  res.json({ message: "User registered & email sent" });
-}
+//   res.json({ message: "User registered & email sent" });
+// }
 
-module.exports = { registerUser };
+// module.exports = { registerUser };
+
+const sendEmail = require("../config/email");
+
+const login = async (req, res) => {
+  res.json({ message: "login works" });
+};
+
+const register = async (req, res) => {
+  res.json({ message: "register works" });
+};
+
+module.exports = {
+  login,
+  register
+};
